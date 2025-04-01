@@ -76,5 +76,20 @@ venv() {
   source env/bin/activate
 }
 
+txt() {
+  open -a TextEdit $1
+}
+
+#copy from the repo
+cz() {
+  . /Users/joh887/MIN/ZPASTE.SH
+  reload
+}
+
+#paste to repo
+pz() {
+  . /Users/joh887/MIN/ZCOPY.SH
+}
+
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/Cellar/tfenv/3.0.0/versions/1.8.1/terraform terraform
