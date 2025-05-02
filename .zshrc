@@ -17,6 +17,48 @@ source $ZSH/oh-my-zsh.sh
 # Be sure to load compinit if needed; oh-my-zsh does it by default.
 # autoload -Uz compinit && compinit
 
+
+# Custom LGIN function to switch AWS profiles and initiate SSO login
+
+
+LGIN() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: LGIN <IDENTIFIER>"
+        return 1
+    fi
+
+    local IDS="$1"
+    local PROFILE
+
+    # Map identifiers to AWS profile names
+    case "$IDS" in
+        dev)
+            PROFILE="046955552049_AWSAdministratorAccess"
+            ;;
+        non_prod)
+            PROFILE="014498658256_AWSAdministratorAccess"
+            ;;
+        prod)
+            PROFILE="AWSAdministratorAccess-014498658553"
+            ;;
+        *)
+            echo "Unknown identifier: $IDS"
+            echo "Available identifiers: dev, prod, non_prod"
+            return 1
+            ;;
+    esac
+
+    # Export the AWS_PROFILE environment variable
+    export AWS_PROFILE="$PROFILE"
+    echo "EXPORT AWS_PROFILE"
+    echo "$AWS_PROFILE"
+
+    # Initiate AWS SSO login
+    echo "LOGGING IN"
+    aws sso login --profile "$AWS_PROFILE"
+}
+
+
 # ------------------------------------------------------------------------------
 # CUSTOM FUNCTIONS AND CONFIG
 # ------------------------------------------------------------------------------
